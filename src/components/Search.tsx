@@ -4,6 +4,7 @@ import RadioList from "./RadioList";
 import { Input } from "./ui/input";
 import Player from "./Player";
 import { Skeleton } from "./ui/skeleton";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -34,7 +35,12 @@ const Search = () => {
         </div>
       ) : error ? (
         <div>
-          Error: {error.status} {JSON.stringify(error.data)}
+          Error:{" "}
+          {(error as FetchBaseQueryError).status
+            ? `${(error as FetchBaseQueryError).status} - ${
+                (error as FetchBaseQueryError).data
+              }`
+            : "Unknown error"}
         </div>
       ) : (
         <RadioList radios={data?.items || []} />
